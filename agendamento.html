@@ -95,8 +95,6 @@
         color: #fff;
         margin-bottom: 16px;
       }
-
-      /* CARDS DE SERVIÇO */
       .servico-card {
         background: #222;
         border: 1px solid #333;
@@ -131,8 +129,6 @@
         color: #d4a017;
         font-weight: 600;
       }
-
-      /* CARDS DE PROFISSIONAL */
       .profissional-grid {
         display: grid;
         grid-template-columns: repeat(3, 1fr);
@@ -173,8 +169,6 @@
         color: #fff;
         font-weight: 500;
       }
-
-      /* DIAS E HORAS */
       .dias-grid {
         display: grid;
         grid-template-columns: repeat(4, 1fr);
@@ -232,13 +226,11 @@
         color: #d4a017;
         background: #1f1a0a;
       }
-      .hora-btn. {
+      .hora-btn.bloqueado {
         opacity: 0.35;
         pointer-events: none;
         text-decoration: line-through;
       }
-
-      /* CAMPOS */
       .campo {
         width: 100%;
         background: #222;
@@ -258,8 +250,6 @@
       .campo::placeholder {
         color: #555;
       }
-
-      /* RESUMO */
       .resumo-card {
         background: #222;
         border: 1px solid #333;
@@ -286,8 +276,6 @@
         color: #fff;
         font-weight: 500;
       }
-
-      /* BOTÕES */
       .btn-principal {
         width: 100%;
         background: #d4a017;
@@ -326,8 +314,6 @@
         color: #fff;
         border-color: #555;
       }
-
-      /* SUCESSO */
       .sucesso {
         text-align: center;
         padding: 16px 0;
@@ -356,7 +342,6 @@
         line-height: 1.7;
         margin-bottom: 24px;
       }
-
       .passo {
         display: none;
       }
@@ -383,9 +368,7 @@
           <p>Rua das Gaivotas, 355 — Salvador</p>
         </div>
       </div>
-
       <div class="card">
-        <!-- BOLINHAS: agora são 5 passos -->
         <div class="steps-bar">
           <div class="dot ativo" id="dot1"></div>
           <div class="dot" id="dot2"></div>
@@ -398,7 +381,6 @@
         <div class="passo ativo" id="passo1">
           <div class="passo-label">Passo 1 de 5</div>
           <div class="passo-titulo">Escolha o serviço</div>
-
           <div
             class="servico-card"
             onclick="selecionarServico(this, 'Corte', 'R$ 35', '30 min')"
@@ -461,7 +443,6 @@
             </div>
             <div class="servico-preco">R$ 40</div>
           </div>
-
           <button
             class="btn-principal"
             id="btn-p1"
@@ -476,7 +457,6 @@
         <div class="passo" id="passo2">
           <div class="passo-label">Passo 2 de 5</div>
           <div class="passo-titulo">Escolha o profissional</div>
-
           <div class="profissional-grid">
             <div
               class="profissional-card"
@@ -500,7 +480,6 @@
               <div class="profissional-nome">Ton</div>
             </div>
           </div>
-
           <button
             class="btn-principal"
             id="btn-p2"
@@ -516,7 +495,6 @@
         <div class="passo" id="passo3">
           <div class="passo-label">Passo 3 de 5</div>
           <div class="passo-titulo">Escolha o dia</div>
-
           <div class="dias-grid">
             <div class="dia-btn" onclick="selecionarDia(this, 'Seg 28')">
               <div class="dia-nome">SEG</div>
@@ -543,17 +521,20 @@
               <div class="dia-num">03</div>
             </div>
           </div>
-
           <div class="secao-label">Horários disponíveis</div>
           <div class="horas-grid">
-            <div class="hora-btn">08:00</div>
+            <div class="hora-btn" onclick="selecionarHora(this, '08:00')">
+              08:00
+            </div>
             <div class="hora-btn" onclick="selecionarHora(this, '09:00')">
               09:00
             </div>
             <div class="hora-btn" onclick="selecionarHora(this, '10:00')">
               10:00
             </div>
-            <div class="hora-btn">11:00</div>
+            <div class="hora-btn" onclick="selecionarHora(this, '11:00')">
+              11:00
+            </div>
             <div class="hora-btn" onclick="selecionarHora(this, '12:00')">
               12:00
             </div>
@@ -566,16 +547,19 @@
             <div class="hora-btn" onclick="selecionarHora(this, '16:00')">
               16:00
             </div>
-            <div class="hora-btn">17:00</div>
+            <div class="hora-btn" onclick="selecionarHora(this, '17:00')">
+              17:00
+            </div>
             <div class="hora-btn" onclick="selecionarHora(this, '18:00')">
               18:00
             </div>
             <div class="hora-btn" onclick="selecionarHora(this, '19:00')">
               19:00
             </div>
-            <div class="hora-btn">20:00</div>
+            <div class="hora-btn" onclick="selecionarHora(this, '20:00')">
+              20:00
+            </div>
           </div>
-
           <button
             class="btn-principal"
             id="btn-p3"
@@ -592,7 +576,6 @@
         <div class="passo" id="passo4">
           <div class="passo-label">Passo 4 de 5</div>
           <div class="passo-titulo">Seus dados</div>
-
           <input
             class="campo"
             id="campo-nome"
@@ -607,7 +590,6 @@
             placeholder="WhatsApp: (71) 99999-9999"
             oninput="verificarFormulario()"
           />
-
           <button
             class="btn-principal"
             id="btn-p4"
@@ -623,64 +605,61 @@
         <div class="passo" id="passo5">
           <div class="passo-label">Passo 5 de 5</div>
           <div class="passo-titulo">Confirme seu agendamento</div>
-
           <div class="resumo-card">
             <div class="resumo-linha">
-              <span class="resumo-chave">Serviço</span>
-              <span class="resumo-valor" id="r-servico">—</span>
+              <span class="resumo-chave">Serviço</span
+              ><span class="resumo-valor" id="r-servico">—</span>
             </div>
             <div class="resumo-linha">
-              <span class="resumo-chave">Profissional</span>
-              <span class="resumo-valor" id="r-profissional">—</span>
+              <span class="resumo-chave">Profissional</span
+              ><span class="resumo-valor" id="r-profissional">—</span>
             </div>
             <div class="resumo-linha">
-              <span class="resumo-chave">Data</span>
-              <span class="resumo-valor" id="r-data">—</span>
+              <span class="resumo-chave">Data</span
+              ><span class="resumo-valor" id="r-data">—</span>
             </div>
             <div class="resumo-linha">
-              <span class="resumo-chave">Horário</span>
-              <span class="resumo-valor" id="r-hora">—</span>
+              <span class="resumo-chave">Horário</span
+              ><span class="resumo-valor" id="r-hora">—</span>
             </div>
             <div class="resumo-linha">
-              <span class="resumo-chave">Nome</span>
-              <span class="resumo-valor" id="r-nome">—</span>
+              <span class="resumo-chave">Nome</span
+              ><span class="resumo-valor" id="r-nome">—</span>
             </div>
             <div class="resumo-linha">
-              <span class="resumo-chave">Valor</span>
-              <span class="resumo-valor" id="r-preco" style="color: #d4a017"
+              <span class="resumo-chave">Valor</span
+              ><span class="resumo-valor" id="r-preco" style="color: #d4a017"
                 >—</span
               >
             </div>
           </div>
-
           <button class="btn-principal" onclick="confirmarAgendamento()">
             Confirmar agendamento
           </button>
           <button class="btn-voltar" onclick="irPasso(4)">Voltar</button>
         </div>
 
-        <!-- TELA DE SUCESSO -->
+        <!-- SUCESSO -->
         <div class="passo" id="passo6">
           <div class="sucesso">
             <div class="check-circulo">✓</div>
             <div class="sucesso-titulo">Agendado!</div>
             <div class="sucesso-sub">
-              Seu horário foi reservado com sucesso.<br />
-              Você receberá uma confirmação<br />
-              pelo WhatsApp em breve.
+              Seu horário foi reservado com sucesso.<br />Você receberá uma
+              confirmação<br />pelo WhatsApp em breve.
             </div>
             <div class="resumo-card" style="text-align: left">
               <div class="resumo-linha">
-                <span class="resumo-chave">Serviço</span>
-                <span class="resumo-valor" id="c-servico">—</span>
+                <span class="resumo-chave">Serviço</span
+                ><span class="resumo-valor" id="c-servico">—</span>
               </div>
               <div class="resumo-linha">
-                <span class="resumo-chave">Profissional</span>
-                <span class="resumo-valor" id="c-profissional">—</span>
+                <span class="resumo-chave">Profissional</span
+                ><span class="resumo-valor" id="c-profissional">—</span>
               </div>
               <div class="resumo-linha">
-                <span class="resumo-chave">Data e hora</span>
-                <span class="resumo-valor" id="c-data">—</span>
+                <span class="resumo-chave">Data e hora</span
+                ><span class="resumo-valor" id="c-data">—</span>
               </div>
             </div>
             <button class="btn-voltar" onclick="reiniciar()">
@@ -692,7 +671,149 @@
     </div>
 
     <script>
-        let dados = {
+      let dados = {
+        servico: "",
+        preco: "",
+        profissional: "",
+        dia: "",
+        hora: "",
+        nome: "",
+        telefone: "",
+      };
+
+      function irPasso(numero) {
+        document.querySelectorAll(".passo").forEach(function (el) {
+          el.classList.remove("ativo");
+        });
+        document.getElementById("passo" + numero).classList.add("ativo");
+        for (var i = 1; i <= 5; i++) {
+          var dot = document.getElementById("dot" + i);
+          if (!dot) continue;
+          if (i === numero) dot.className = "dot ativo";
+          else if (i < numero) dot.className = "dot feito";
+          else dot.className = "dot";
+        }
+        if (numero === 5) preencherResumo();
+      }
+
+      function selecionarServico(elemento, nome, preco, duracao) {
+        document.querySelectorAll(".servico-card").forEach(function (c) {
+          c.classList.remove("selecionado");
+        });
+        elemento.classList.add("selecionado");
+        dados.servico = nome;
+        dados.preco = preco;
+        document.getElementById("btn-p1").disabled = false;
+      }
+
+      function selecionarProfissional(elemento, nome) {
+        document.querySelectorAll(".profissional-card").forEach(function (c) {
+          c.classList.remove("selecionado");
+        });
+        elemento.classList.add("selecionado");
+        dados.profissional = nome;
+        document.getElementById("btn-p2").disabled = false;
+      }
+
+      function bloquearHorariosPassados() {
+        var agora = new Date();
+        var horaAtual = agora.getHours();
+        var minutoAtual = agora.getMinutes();
+        document.querySelectorAll(".hora-btn").forEach(function (btn) {
+          var texto = btn.textContent.trim();
+          if (!texto.includes(":")) return;
+          btn.classList.remove("bloqueado");
+          var partes = texto.split(":");
+          var horaBtn = parseInt(partes[0]);
+          var minBtn = parseInt(partes[1]);
+          if (
+            horaBtn < horaAtual ||
+            (horaBtn === horaAtual && minBtn <= minutoAtual)
+          ) {
+            btn.classList.add("bloqueado");
+            btn.classList.remove("selecionado");
+          }
+        });
+      }
+
+      function selecionarDia(elemento, dia) {
+        document.querySelectorAll(".dia-btn").forEach(function (b) {
+          b.classList.remove("selecionado");
+        });
+        elemento.classList.add("selecionado");
+        dados.dia = dia;
+        dados.hora = "";
+        document.getElementById("btn-p3").disabled = true;
+        bloquearHorariosPassados();
+      }
+
+      function selecionarHora(elemento, hora) {
+        document
+          .querySelectorAll(".hora-btn:not(.bloqueado)")
+          .forEach(function (b) {
+            b.classList.remove("selecionado");
+          });
+        elemento.classList.add("selecionado");
+        dados.hora = hora;
+        verificarPasso3();
+      }
+
+      function verificarPasso3() {
+        if (dados.dia !== "" && dados.hora !== "") {
+          document.getElementById("btn-p3").disabled = false;
+        }
+      }
+
+      function verificarFormulario() {
+        var nome = document.getElementById("campo-nome").value.trim();
+        var tel = document.getElementById("campo-tel").value.trim();
+        dados.nome = nome;
+        dados.telefone = tel;
+        if (nome.length >= 3 && tel.length >= 9) {
+          document.getElementById("btn-p4").disabled = false;
+        } else {
+          document.getElementById("btn-p4").disabled = true;
+        }
+      }
+
+      function preencherResumo() {
+        document.getElementById("r-servico").textContent = dados.servico;
+        document.getElementById("r-profissional").textContent =
+          dados.profissional;
+        document.getElementById("r-data").textContent = dados.dia + "/Jun";
+        document.getElementById("r-hora").textContent = dados.hora;
+        document.getElementById("r-nome").textContent = dados.nome;
+        document.getElementById("r-preco").textContent = dados.preco;
+      }
+
+      function confirmarAgendamento() {
+        document.getElementById("c-servico").textContent = dados.servico;
+        document.getElementById("c-profissional").textContent =
+          dados.profissional;
+        document.getElementById("c-data").textContent =
+          dados.dia + "/Jun às " + dados.hora;
+        fetch("/api/agendar", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(dados),
+        })
+          .then(function (r) {
+            return r.json();
+          })
+          .then(function (resultado) {
+            console.log("Agendamento salvo:", resultado);
+          });
+        document.querySelectorAll(".passo").forEach(function (el) {
+          el.classList.remove("ativo");
+        });
+        document.getElementById("passo6").classList.add("ativo");
+        document.querySelectorAll(".dot").forEach(function (dot) {
+          dot.className = "dot feito";
+        });
+      }
+
+      function reiniciar() {
+        dados = {
           servico: "",
           preco: "",
           profissional: "",
@@ -701,164 +822,20 @@
           nome: "",
           telefone: "",
         };
-
-        function irPasso(numero) {
-          document.querySelectorAll(".passo").forEach(function (el) {
-            el.classList.remove("ativo");
-          });
-          document.getElementById("passo" + numero).classList.add("ativo");
-
-          for (let i = 1; i <= 5; i++) {
-            let dot = document.getElementById("dot" + i);
-            if (!dot) continue;
-            if (i === numero) dot.className = "dot ativo";
-            else if (i < numero) dot.className = "dot feito";
-            else dot.className = "dot";
-          }
-
-          if (numero === 5) preencherResumo();
-        }
-
-        function selecionarServico(elemento, nome, preco, duracao) {
-          document.querySelectorAll(".servico-card").forEach(function (c) {
-            c.classList.remove("selecionado");
-          });
-          elemento.classList.add("selecionado");
-          dados.servico = nome;
-          dados.preco = preco;
-          document.getElementById("btn-p1").disabled = false;
-        }
-
-        function selecionarProfissional(elemento, nome) {
-          document.querySelectorAll(".profissional-card").forEach(function (c) {
-            c.classList.remove("selecionado");
-          });
-          elemento.classList.add("selecionado");
-          dados.profissional = nome;
-          document.getElementById("btn-p2").disabled = false;
-        }
-
-        function selecionarDia(elemento, dia) {
-          document.querySelectorAll(".dia-btn").forEach(function (b) {
-            b.classList.remove("selecionado");
-          });
-          elemento.classList.add("selecionado");
-          dados.dia = dia;
-          verificarPasso3();
-        bloquearHorariosPassados();
-      }      bloquearHorariosPassados();
-      }      }
-
-        function selecionarHora(elemento, hora) {
-          document.querySelectorAll(".hora-btn:not(.)").forEach(function (b) {
-            b.classList.remove("selecionado");
-          });
-          elemento.classList.add("selecionado");
-          dados.hora = hora;
-          verificarPasso3();
-        bloquearHorariosPassados();
-      }      }
-        // Bloqueia horários que já passaram no dia atual
-        function bloquearHorariosPassados() {
-          let agora = new Date();
-          let horaAtual = agora.getHours();
-          let minutoAtual = agora.getMinutes();
-
-          document.querySelectorAll(".hora-btn").forEach(function (btn) {
-            let texto = btn.textContent.trim();
-            if (!texto.includes(":")) return;
-
-            let partes = texto.split(":");
-            let horaBtn = parseInt(partes[0]);
-            let minBtn = parseInt(partes[1]);
-
-            // Se o horário já passou, bloqueia
-            if (
-              horaBtn < horaAtual ||
-              (horaBtn === horaAtual && minBtn <= minutoAtual)
-            ) {
-              btn.classList.add("bloqueado");
-            }
-          });
-        }
-
-        function verificarPasso3() {
-          if (dados.dia !== "" && dados.hora !== "") {
-            document.getElementById("btn-p3").disabled = false;
-          }
-        }
-
-        function verificarFormulario() {
-          let nome = document.getElementById("campo-nome").value.trim();
-          let tel = document.getElementById("campo-tel").value.trim();
-          dados.nome = nome;
-          dados.telefone = tel;
-          if (nome.length >= 3 && tel.length >= 9) {
-            document.getElementById("btn-p4").disabled = false;
-          } else {
-            document.getElementById("btn-p4").disabled = true;
-          }
-        }
-
-        function preencherResumo() {
-          document.getElementById("r-servico").textContent = dados.servico;
-          document.getElementById("r-profissional").textContent =
-            dados.profissional;
-          document.getElementById("r-data").textContent = dados.dia + "/Jun";
-          document.getElementById("r-hora").textContent = dados.hora;
-          document.getElementById("r-nome").textContent = dados.nome;
-          document.getElementById("r-preco").textContent = dados.preco;
-        }
-
-        function confirmarAgendamento() {
-          document.getElementById("c-servico").textContent = dados.servico;
-          document.getElementById("c-profissional").textContent =
-            dados.profissional;
-          document.getElementById("c-data").textContent =
-            dados.dia + "/Jun às " + dados.hora;
-
-          fetch("/api/agendar", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(dados),
-          })
-            .then(function (r) {
-              return r.json();
-            })
-            .then(function (resultado) {
-              console.log("Agendamento salvo:", resultado);
-            });
-
-          document.querySelectorAll(".passo").forEach(function (el) {
-            el.classList.remove("ativo");
-          });
-          document.getElementById("passo6").classList.add("ativo");
-          document.querySelectorAll(".dot").forEach(function (dot) {
-            dot.className = "dot feito";
-          });
-        }
-
-        function reiniciar() {
-          dados = {
-            servico: "",
-            preco: "",
-            profissional: "",
-            dia: "",
-            hora: "",
-            nome: "",
-            telefone: "",
-          };
-          document.querySelectorAll(".selecionado").forEach(function (el) {
-            el.classList.remove("selecionado");
-          });
-          document.getElementById("campo-nome").value = "";
-          document.getElementById("campo-tel").value = "";
-          document.getElementById("btn-p1").disabled = true;
-          document.getElementById("btn-p2").disabled = true;
-          document.getElementById("btn-p3").disabled = true;
-          document.getElementById("btn-p4").disabled = true;
-          irPasso(1);
-        }
+        document.querySelectorAll(".selecionado").forEach(function (el) {
+          el.classList.remove("selecionado");
+        });
+        document.querySelectorAll(".hora-btn").forEach(function (b) {
+          b.classList.remove("bloqueado");
+        });
+        document.getElementById("campo-nome").value = "";
+        document.getElementById("campo-tel").value = "";
+        document.getElementById("btn-p1").disabled = true;
+        document.getElementById("btn-p2").disabled = true;
+        document.getElementById("btn-p3").disabled = true;
+        document.getElementById("btn-p4").disabled = true;
+        irPasso(1);
+      }
     </script>
   </body>
 </html>
