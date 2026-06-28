@@ -1,8 +1,8 @@
 const express = require("express");
+const path = require("path");
 const app = express();
 
 app.use(express.json());
-const path = require("path");
 app.use(express.static(path.join(__dirname)));
 
 app.get("/", function (req, res) {
@@ -26,15 +26,12 @@ app.get("/api/agendamentos", function (req, res) {
 app.patch("/api/agendamentos/:id", function (req, res) {
   let id = parseInt(req.params.id);
   let novoStatus = req.body.status;
-
   let ag = agendamentos.find(function (a) {
     return a.id === id;
   });
-
   if (!ag) {
     return res.json({ sucesso: false, mensagem: "Não encontrado" });
   }
-
   ag.status = novoStatus;
   console.log("Status atualizado:", ag.nome, "->", novoStatus);
   res.json({ sucesso: true, agendamento: ag });
