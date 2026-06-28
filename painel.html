@@ -4,248 +4,53 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Painel do Dono — Barber & Studio FX</title>
-
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
-
-    body {
-      font-family: Arial, sans-serif;
-      background: #0d0d0d;
-      color: #fff;
-      min-height: 100vh;
-      padding: 24px 16px;
-    }
-
-    /* CABEÇALHO */
-    .header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      background: #111;
-      border-radius: 12px;
-      padding: 16px 20px;
-      margin-bottom: 24px;
-      max-width: 700px;
-      margin-left: auto;
-      margin-right: auto;
-    }
-
-    .header-esq {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-
-    .logo {
-      width: 42px;
-      height: 42px;
-      background: #D4A017;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 700;
-      font-size: 14px;
-      color: #111;
-    }
-
+    body { font-family: Arial, sans-serif; background: #0d0d0d; color: #fff; min-height: 100vh; padding: 24px 16px; }
+    .header { display: flex; align-items: center; justify-content: space-between; background: #111; border-radius: 12px; padding: 16px 20px; margin-bottom: 20px; max-width: 700px; margin-left: auto; margin-right: auto; }
+    .header-esq { display: flex; align-items: center; gap: 12px; }
+    .logo { width: 42px; height: 42px; background: #D4A017; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 14px; color: #111; }
     .header h1 { font-size: 15px; font-weight: 600; }
-    .header p  { font-size: 12px; color: #888; margin-top: 2px; }
+    .header p { font-size: 12px; color: #888; margin-top: 2px; }
+    .container { max-width: 700px; margin: 0 auto; }
 
-    .badge-total {
-      background: #D4A017;
-      color: #111;
-      font-size: 12px;
-      font-weight: 700;
-      padding: 4px 12px;
-      border-radius: 20px;
-    }
+    /* CARDS DE RESUMO FINANCEIRO */
+    .resumo-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 20px; }
+    .resumo-card { background: #1a1a1a; border: 1px solid #333; border-radius: 12px; padding: 14px; text-align: center; }
+    .resumo-card .periodo { font-size: 11px; color: #888; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px; }
+    .resumo-card .valor { font-size: 20px; font-weight: 700; color: #D4A017; margin-bottom: 4px; }
+    .resumo-card .qtd { font-size: 12px; color: #555; }
 
-    /* CONTAINER PRINCIPAL */
-    .container {
-      max-width: 700px;
-      margin: 0 auto;
-    }
-
-    /* TÍTULO DA SEÇÃO */
-    .secao-titulo {
-      font-size: 13px;
-      color: #888;
-      font-weight: 500;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      margin-bottom: 12px;
-    }
-
-    /* ESTADO VAZIO */
-    .vazio {
-      text-align: center;
-      padding: 48px 20px;
-      background: #1a1a1a;
-      border-radius: 12px;
-      color: #555;
-      font-size: 14px;
-    }
-
+    .secao-titulo { font-size: 13px; color: #888; font-weight: 500; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px; }
+    .vazio { text-align: center; padding: 48px 20px; background: #1a1a1a; border-radius: 12px; color: #555; font-size: 14px; }
     .vazio span { font-size: 32px; display: block; margin-bottom: 10px; }
 
-    /* CARD DE AGENDAMENTO */
-    .agendamento-card {
-      background: #1a1a1a;
-      border: 1px solid #333;
-      border-radius: 12px;
-      padding: 16px;
-      margin-bottom: 10px;
-      transition: border-color 0.2s;
-    }
-
-    .agendamento-card.confirmado {
-      border-color: #1a7a3a;
-      background: #0f1f15;
-    }
-
-    .agendamento-card.cancelado {
-      border-color: #7a1a1a;
-      background: #1f0f0f;
-      opacity: 0.6;
-    }
-
-    /* LINHA SUPERIOR DO CARD */
-    .card-topo {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 10px;
-    }
-
-    .cliente-info { display: flex; flex-direction: column; gap: 2px; }
-
-    .cliente-nome {
-      font-size: 15px;
-      font-weight: 600;
-      color: #fff;
-    }
-
-    .cliente-tel {
-      font-size: 12px;
-      color: #888;
-    }
-
-    /* STATUS BADGE */
-    .status {
-      font-size: 11px;
-      font-weight: 600;
-      padding: 4px 10px;
-      border-radius: 20px;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
-
-    .status.pendente    { background: #2a2000; color: #D4A017; }
-    .status.confirmado  { background: #0f2a1a; color: #25D366; }
-    .status.cancelado   { background: #2a0f0f; color: #e63946; }
-
-    /* DETALHES DO AGENDAMENTO */
-    .card-detalhes {
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
-      margin-bottom: 12px;
-    }
-
-    .detalhe-chip {
-      background: #222;
-      border: 1px solid #333;
-      border-radius: 6px;
-      padding: 5px 10px;
-      font-size: 12px;
-      color: #ccc;
-    }
-
-    .detalhe-chip strong {
-      color: #D4A017;
-    }
-
-    /* BOTÕES DE AÇÃO */
-    .card-acoes {
-      display: flex;
-      gap: 8px;
-    }
-
-    .btn-confirmar {
-      flex: 1;
-      background: #0f2a1a;
-      border: 1px solid #1a7a3a;
-      color: #25D366;
-      border-radius: 8px;
-      padding: 10px;
-      font-size: 13px;
-      font-weight: 600;
-      cursor: pointer;
-      font-family: inherit;
-      transition: background 0.15s;
-    }
-
+    .agendamento-card { background: #1a1a1a; border: 1px solid #333; border-radius: 12px; padding: 16px; margin-bottom: 10px; transition: border-color 0.2s; }
+    .agendamento-card.confirmado { border-color: #1a7a3a; background: #0f1f15; }
+    .agendamento-card.cancelado { border-color: #7a1a1a; background: #1f0f0f; opacity: 0.6; }
+    .card-topo { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
+    .cliente-nome { font-size: 15px; font-weight: 600; color: #fff; }
+    .cliente-tel { font-size: 12px; color: #888; }
+    .status { font-size: 11px; font-weight: 600; padding: 4px 10px; border-radius: 20px; text-transform: uppercase; letter-spacing: 0.5px; }
+    .status.pendente { background: #2a2000; color: #D4A017; }
+    .status.confirmado { background: #0f2a1a; color: #25D366; }
+    .status.cancelado { background: #2a0f0f; color: #e63946; }
+    .card-detalhes { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px; }
+    .detalhe-chip { background: #222; border: 1px solid #333; border-radius: 6px; padding: 5px 10px; font-size: 12px; color: #ccc; }
+    .detalhe-chip strong { color: #D4A017; }
+    .card-acoes { display: flex; gap: 8px; }
+    .btn-confirmar { flex: 1; background: #0f2a1a; border: 1px solid #1a7a3a; color: #25D366; border-radius: 8px; padding: 10px; font-size: 13px; font-weight: 600; cursor: pointer; font-family: inherit; transition: background 0.15s; }
     .btn-confirmar:hover { background: #1a3a25; }
-
-    .btn-cancelar {
-      flex: 1;
-      background: #2a0f0f;
-      border: 1px solid #7a1a1a;
-      color: #e63946;
-      border-radius: 8px;
-      padding: 10px;
-      font-size: 13px;
-      font-weight: 600;
-      cursor: pointer;
-      font-family: inherit;
-      transition: background 0.15s;
-    }
-
+    .btn-cancelar { flex: 1; background: #2a0f0f; border: 1px solid #7a1a1a; color: #e63946; border-radius: 8px; padding: 10px; font-size: 13px; font-weight: 600; cursor: pointer; font-family: inherit; transition: background 0.15s; }
     .btn-cancelar:hover { background: #3a1515; }
-
-    /* Botão desabilitado após ação */
-    .btn-confirmar:disabled,
-    .btn-cancelar:disabled {
-      opacity: 0.3;
-      cursor: not-allowed;
-    }
-
-    /* BOTÃO ATUALIZAR */
-    .btn-atualizar {
-      width: 100%;
-      background: #222;
-      border: 1px solid #333;
-      color: #888;
-      border-radius: 10px;
-      padding: 12px;
-      font-size: 14px;
-      cursor: pointer;
-      font-family: inherit;
-      margin-top: 16px;
-      transition: all 0.15s;
-    }
-
+    .btn-confirmar:disabled, .btn-cancelar:disabled { opacity: 0.3; cursor: not-allowed; }
+    .btn-atualizar { width: 100%; background: #222; border: 1px solid #333; color: #888; border-radius: 10px; padding: 12px; font-size: 14px; cursor: pointer; font-family: inherit; margin-top: 16px; transition: all 0.15s; }
     .btn-atualizar:hover { color: #fff; border-color: #555; }
-
-    /* LINK PARA O SITE DO CLIENTE */
-    .link-cliente {
-      text-align: center;
-      margin-top: 16px;
-      font-size: 13px;
-      color: #555;
-    }
-
-    .link-cliente a {
-      color: #D4A017;
-      text-decoration: none;
-    }
-
+    .link-cliente { text-align: center; margin-top: 16px; font-size: 13px; color: #555; }
+    .link-cliente a { color: #D4A017; text-decoration: none; }
   </style>
 </head>
 <body>
-
-  <!-- CABEÇALHO -->
   <div class="header">
     <div class="header-esq">
       <div class="logo">FX</div>
@@ -254,189 +59,168 @@
         <p>Barber &amp; Studio FX</p>
       </div>
     </div>
-    <!-- Mostra quantos agendamentos existem -->
-    <div class="badge-total" id="badge-total">0 hoje</div>
   </div>
 
   <div class="container">
 
-    <div class="secao-titulo">Agendamentos</div>
-
-    <!--
-      Lista de agendamentos — preenchida pelo JavaScript
-      Começa vazia, o JS insere os cards aqui
-    -->
-    <div id="lista-agendamentos">
-      <div class="vazio">
-        <span>📋</span>
-        Carregando agendamentos...
+    <!-- CARDS FINANCEIROS -->
+    <div class="resumo-grid">
+      <div class="resumo-card">
+        <div class="periodo">Hoje</div>
+        <div class="valor" id="valor-hoje">R$ 0</div>
+        <div class="qtd" id="qtd-hoje">0 confirmados</div>
+      </div>
+      <div class="resumo-card">
+        <div class="periodo">Semana</div>
+        <div class="valor" id="valor-semana">R$ 0</div>
+        <div class="qtd" id="qtd-semana">0 confirmados</div>
+      </div>
+      <div class="resumo-card">
+        <div class="periodo">Mês</div>
+        <div class="valor" id="valor-mes">R$ 0</div>
+        <div class="qtd" id="qtd-mes">0 confirmados</div>
       </div>
     </div>
 
-    <!-- Botão para buscar agendamentos novamente -->
-    <button class="btn-atualizar" onclick="carregarAgendamentos()">
-      🔄 Atualizar lista
-    </button>
+    <div class="secao-titulo">Agendamentos</div>
+    <div id="lista-agendamentos">
+      <div class="vazio"><span>📋</span>Carregando agendamentos...</div>
+    </div>
 
+    <button class="btn-atualizar" onclick="carregarAgendamentos()">🔄 Atualizar lista</button>
     <div class="link-cliente">
       <a href="/agendamento.html" target="_blank">→ Abrir tela do cliente</a>
     </div>
-
   </div>
-
 
   <script>
 
-    /*
-    FUNÇÃO: carregarAgendamentos()
-    Busca todos os agendamentos do servidor via GET
-    e monta os cards na tela.
-    */
+    // Extrai o valor numérico de uma string como "R$ 55"
+    function extrairValor(preco) {
+      if (!preco) return 0;
+      var num = preco.replace(/[^\d]/g, '');
+      return parseInt(num) || 0;
+    }
+
+    // Verifica se uma data está no mesmo dia de hoje
+    function ehHoje(timestamp) {
+      var agora = new Date();
+      var data = new Date(timestamp);
+      return data.getDate() === agora.getDate() &&
+             data.getMonth() === agora.getMonth() &&
+             data.getFullYear() === agora.getFullYear();
+    }
+
+    // Verifica se uma data está na semana atual
+    function ehEstaSemana(timestamp) {
+      var agora = new Date();
+      var data = new Date(timestamp);
+      var inicioSemana = new Date(agora);
+      inicioSemana.setDate(agora.getDate() - agora.getDay());
+      inicioSemana.setHours(0, 0, 0, 0);
+      return data >= inicioSemana;
+    }
+
+    // Verifica se uma data está no mês atual
+    function ehEsteMes(timestamp) {
+      var agora = new Date();
+      var data = new Date(timestamp);
+      return data.getMonth() === agora.getMonth() &&
+             data.getFullYear() === agora.getFullYear();
+    }
+
+    // Atualiza os cards financeiros
+    function atualizarResumo(agendamentos) {
+      var confirmados = agendamentos.filter(function(ag) { return ag.status === 'confirmado'; });
+
+      var hoje     = confirmados.filter(function(ag) { return ehHoje(ag.id); });
+      var semana   = confirmados.filter(function(ag) { return ehEstaSemana(ag.id); });
+      var mes      = confirmados.filter(function(ag) { return ehEsteMes(ag.id); });
+
+      var totalHoje   = hoje.reduce(function(acc, ag)   { return acc + extrairValor(ag.preco); }, 0);
+      var totalSemana = semana.reduce(function(acc, ag) { return acc + extrairValor(ag.preco); }, 0);
+      var totalMes    = mes.reduce(function(acc, ag)    { return acc + extrairValor(ag.preco); }, 0);
+
+      document.getElementById('valor-hoje').textContent   = 'R$ ' + totalHoje;
+      document.getElementById('valor-semana').textContent = 'R$ ' + totalSemana;
+      document.getElementById('valor-mes').textContent    = 'R$ ' + totalMes;
+
+      document.getElementById('qtd-hoje').textContent   = hoje.length + ' confirmado' + (hoje.length !== 1 ? 's' : '');
+      document.getElementById('qtd-semana').textContent = semana.length + ' confirmado' + (semana.length !== 1 ? 's' : '');
+      document.getElementById('qtd-mes').textContent    = mes.length + ' confirmado' + (mes.length !== 1 ? 's' : '');
+    }
+
     function carregarAgendamentos() {
+      document.getElementById('lista-agendamentos').innerHTML = '<div class="vazio"><span>⏳</span>Carregando...</div>';
 
-      // Mostra mensagem enquanto carrega
-      document.getElementById('lista-agendamentos').innerHTML = `
-        <div class="vazio"><span>⏳</span>Carregando...</div>
-      `;
-
-      /*
-      fetch GET — busca dados do servidor
-      Diferente do POST (que envia), o GET só pede dados
-      */
       fetch('/api/agendamentos')
-        .then(function(resposta) {
-          return resposta.json();
-        })
+        .then(function(r) { return r.json(); })
         .then(function(agendamentos) {
 
-          // Atualiza o badge com total
-          document.getElementById('badge-total').textContent =
-            agendamentos.length + (agendamentos.length === 1 ? ' agendamento' : ' agendamentos');
+          atualizarResumo(agendamentos);
 
-          // Se não tiver nenhum, mostra mensagem
           if (agendamentos.length === 0) {
-            document.getElementById('lista-agendamentos').innerHTML = `
-              <div class="vazio">
-                <span>📋</span>
-                Nenhum agendamento ainda.
-              </div>
-            `;
+            document.getElementById('lista-agendamentos').innerHTML = '<div class="vazio"><span>📋</span>Nenhum agendamento ainda.</div>';
             return;
           }
 
-          // Monta o HTML de cada card
-          let html = '';
-
+          var html = '';
           agendamentos.forEach(function(ag) {
+            var statusClasse = ag.status || 'pendente';
+            var statusTexto  = statusClasse === 'confirmado' ? '✓ Confirmado' : statusClasse === 'cancelado' ? '✗ Cancelado' : '⏳ Pendente';
+            var desabilitado = statusClasse !== 'pendente' ? 'disabled' : '';
+            var dataFormatada = ag.id ? new Date(ag.id).toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' }) : '';
 
-            // Define a classe e o texto do status
-            let statusClasse = ag.status || 'pendente';
-            let statusTexto  = statusClasse === 'confirmado' ? '✓ Confirmado'
-                             : statusClasse === 'cancelado'  ? '✗ Cancelado'
-                             : '⏳ Pendente';
-
-            // Botões ficam desabilitados se já foi confirmado ou cancelado
-            let desabilitado = (statusClasse !== 'pendente') ? 'disabled' : '';
-
-            html += `
-              <div class="agendamento-card ${statusClasse}" id="card-${ag.id}">
-
-                <div class="card-topo">
-                  <div class="cliente-info">
-                    <span class="cliente-nome">${ag.nome}</span>
-                    <span class="cliente-tel">${ag.telefone}</span>
-                  </div>
-                  <span class="status ${statusClasse}" id="status-${ag.id}">
-                    ${statusTexto}
-                  </span>
-                </div>
-
-                <div class="card-detalhes">
-                  <div class="detalhe-chip"><strong>Serviço:</strong> ${ag.servico}</div>
-                  <div class="detalhe-chip"><strong>Data:</strong> ${ag.dia}/Jun</div>
-                  <div class="detalhe-chip"><strong>Hora:</strong> ${ag.hora}</div>
-                  <div class="detalhe-chip"><strong>Valor:</strong> ${ag.preco}</div>
-                </div>
-
-                <div class="card-acoes">
-                  <button
-                    class="btn-confirmar"
-                    onclick="atualizarStatus(${ag.id}, 'confirmado')"
-                    ${desabilitado}
-                  >
-                    ✓ Confirmar
-                  </button>
-                  <button
-                    class="btn-cancelar"
-                    onclick="atualizarStatus(${ag.id}, 'cancelado')"
-                    ${desabilitado}
-                  >
-                    ✗ Cancelar
-                  </button>
-                </div>
-
-              </div>
-            `;
+            html += '<div class="agendamento-card ' + statusClasse + '" id="card-' + ag.id + '">' +
+              '<div class="card-topo">' +
+                '<div><div class="cliente-nome">' + ag.nome + '</div><div class="cliente-tel">' + ag.telefone + '</div></div>' +
+                '<span class="status ' + statusClasse + '" id="status-' + ag.id + '">' + statusTexto + '</span>' +
+              '</div>' +
+              '<div class="card-detalhes">' +
+                '<div class="detalhe-chip"><strong>Serviço:</strong> ' + ag.servico + '</div>' +
+                (ag.profissional ? '<div class="detalhe-chip"><strong>Prof:</strong> ' + ag.profissional + '</div>' : '') +
+                '<div class="detalhe-chip"><strong>Data:</strong> ' + ag.dia + '</div>' +
+                '<div class="detalhe-chip"><strong>Hora:</strong> ' + ag.hora + '</div>' +
+                '<div class="detalhe-chip"><strong>Valor:</strong> ' + ag.preco + '</div>' +
+                (dataFormatada ? '<div class="detalhe-chip"><strong>Recebido:</strong> ' + dataFormatada + '</div>' : '') +
+              '</div>' +
+              '<div class="card-acoes">' +
+                '<button class="btn-confirmar" onclick="atualizarStatus(' + ag.id + ', \'confirmado\')" ' + desabilitado + '>✓ Confirmar</button>' +
+                '<button class="btn-cancelar" onclick="atualizarStatus(' + ag.id + ', \'cancelado\')" ' + desabilitado + '>✗ Cancelar</button>' +
+              '</div>' +
+            '</div>';
           });
 
           document.getElementById('lista-agendamentos').innerHTML = html;
         })
         .catch(function(erro) {
-          console.error('Erro ao carregar:', erro);
-          document.getElementById('lista-agendamentos').innerHTML = `
-            <div class="vazio"><span>⚠️</span>Erro ao carregar. Tente novamente.</div>
-          `;
+          document.getElementById('lista-agendamentos').innerHTML = '<div class="vazio"><span>⚠️</span>Erro ao carregar.</div>';
         });
     }
 
-
-    /*
-    FUNÇÃO: atualizarStatus(id, novoStatus)
-    Envia para o servidor a confirmação ou cancelamento
-    de um agendamento específico pelo ID.
-    */
     function atualizarStatus(id, novoStatus) {
-
       fetch('/api/agendamentos/' + id, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ status: novoStatus })
       })
-      .then(function(resposta) {
-        return resposta.json();
-      })
+      .then(function(r) { return r.json(); })
       .then(function(resultado) {
-
         if (resultado.sucesso) {
-
-          // Atualiza o card visualmente sem recarregar a página
-          let card   = document.getElementById('card-' + id);
-          let status = document.getElementById('status-' + id);
-
-          // Troca a classe do card
+          var card   = document.getElementById('card-' + id);
+          var status = document.getElementById('status-' + id);
           card.classList.remove('pendente', 'confirmado', 'cancelado');
           card.classList.add(novoStatus);
-
-          // Atualiza o texto do status
           status.className = 'status ' + novoStatus;
           status.textContent = novoStatus === 'confirmado' ? '✓ Confirmado' : '✗ Cancelado';
-
-          // Desabilita os botões do card
-          let botoes = card.querySelectorAll('button');
-          botoes.forEach(function(btn) { btn.disabled = true; });
+          card.querySelectorAll('button').forEach(function(btn) { btn.disabled = true; });
+          // Recarrega o resumo financeiro
+          carregarAgendamentos();
         }
-      })
-      .catch(function(erro) {
-        console.error('Erro ao atualizar:', erro);
-        alert('Erro ao atualizar. Tente novamente.');
       });
     }
 
-
-    // Carrega os agendamentos automaticamente quando a página abre
     carregarAgendamentos();
-
   </script>
-
 </body>
 </html>
