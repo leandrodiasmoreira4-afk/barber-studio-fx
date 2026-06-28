@@ -2,11 +2,11 @@ const express = require("express");
 const app = express();
 
 app.use(express.json());
-const path = require('path');
+const path = require("path");
 app.use(express.static(path.join(__dirname)));
 
-app.get('/', function(req, res) {
-  res.sendFile(path.join(__dirname, 'agendamento.html'));
+app.get("/", function (req, res) {
+  res.sendFile(path.join(__dirname, "agendamento.html"));
 });
 
 let agendamentos = [];
@@ -44,6 +44,3 @@ const PORT = process.env.PORT || 3000;
 app.listen(PORT, function () {
   console.log("Servidor rodando na porta " + PORT);
 });
-git add .
-git commit -m "fix porta Railway"
-git push
