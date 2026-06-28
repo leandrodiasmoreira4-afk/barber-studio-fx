@@ -13,6 +13,3 @@
     "express": "^5.1.0"
   }
 }
-git add .
-git commit -m "corrige start script"
-git push
