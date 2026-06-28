@@ -35,6 +35,10 @@ app.patch("/api/agendamentos/:id", function (req, res) {
   res.json({ sucesso: true, agendamento: ag });
 });
 
-app.listen(3000, function () {
-  console.log("Servidor rodando em http://localhost:3000");
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, function () {
+  console.log("Servidor rodando na porta " + PORT);
 });
+git add .
+git commit -m "fix porta Railway"
+git push
