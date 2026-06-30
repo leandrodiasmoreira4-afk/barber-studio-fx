@@ -98,3 +98,22 @@ app.patch("/api/agendamentos/:id", exigirAdmin, function (req, res) {
   const novoStatus = req.body.status;
 
   if (!["pendente", "confirmado", "cancelado"].includes(novoStatus)) {
+    return res.status(400).json({ sucesso: false, mensagem: "Status invalido" });
+  }
+
+  const ag = agendamentos.find(function (item) {
+    return item.id === id;
+  });
+
+  if (!ag) {
+    return res.status(404).json({ sucesso: false, mensagem: "Nao encontrado" });
+  }
+
+  ag.status = novoStatus;
+  res.json({ sucesso: true, agendamento: ag });
+});
+
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, function () {
+  console.log("Servidor rodando na porta " + PORT);
+});

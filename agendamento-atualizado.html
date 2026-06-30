@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Barber &amp; Studio FX - Agendamento</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: Arial, sans-serif;
+      background:
+        radial-gradient(circle at top, rgba(212, 160, 23, 0.14), transparent 34%),
+        linear-gradient(135deg, #070707, #16130d 55%, #080808);
+      color: #f7f1e8;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px 16px;
+    }
+    .container { width: 100%; max-width: 460px; }
+    .header {
+      background: rgba(17, 17, 17, 0.96);
+      border: 1px solid rgba(212, 160, 23, 0.18);
+      border-bottom: none;
+      border-radius: 16px 16px 0 0;
+      padding: 18px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      box-shadow: 0 18px 50px rgba(0, 0, 0, 0.35);
+    }
+    .logo {
+      width: 46px;
+      height: 46px;
+      background: linear-gradient(135deg, #f2c14e, #b98218);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 14px;
+      color: #111;
+      letter-spacing: 1px;
+    }
+    .header h1 { font-size: 17px; font-weight: 800; color: #fff; letter-spacing: 0.2px; }
+    .header p { font-size: 12px; color: #a9a096; margin-top: 3px; }
+    .card {
+      background: rgba(20, 20, 20, 0.98);
+      border: 1px solid rgba(212, 160, 23, 0.18);
+      border-radius: 0 0 16px 16px;
+      padding: 22px;
+      box-shadow: 0 18px 50px rgba(0, 0, 0, 0.35);
+    }
+    .steps-bar { display: flex; gap: 7px; justify-content: center; margin-bottom: 22px; }
+    .dot { width: 8px; height: 8px; border-radius: 50%; background: #3a3328; transition: all 0.2s; }
+    .dot.ativo { background: linear-gradient(135deg, #f2c14e, #b98218); width: 26px; border-radius: 4px; }
+    .dot.feito { background: #66583f; }
+    .passo-label {
+      font-size: 11px;
+      color: #d4a017;
+      font-weight: 800;
+      letter-spacing: 1.4px;
+      text-transform: uppercase;
+      margin-bottom: 7px;
+    }
+    .passo-titulo { font-size: 22px; font-weight: 800; color: #fff; margin-bottom: 17px; }
+    .servico-card {
+      background: #202020;
+      border: 1px solid #3a352d;
+      border-radius: 12px;
+      padding: 14px 16px;
+      margin-bottom: 9px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      transition: border-color 0.15s, background 0.15s, transform 0.15s;
+    }
+    .servico-card:hover { border-color: #d4a017; transform: translateY(-1px); }
+    .servico-card.selecionado { border-color: #d4a017; background: #211a08; }
+    .servico-nome { font-size: 14px; color: #fff; font-weight: 700; }
+    .servico-duracao { font-size: 12px; color: #a9a096; margin-top: 3px; }
+    .servico-preco { font-size: 15px; color: #f2c14e; font-weight: 800; }
+    .profissional-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 8px; }
+    .profissional-card {
+      background: #202020;
+      border: 1px solid #3a352d;
+      border-radius: 12px;
+      padding: 14px 8px;
+      cursor: pointer;
+      text-align: center;
+      transition: border-color 0.15s, background 0.15s, transform 0.15s;
+    }
+    .profissional-card:hover { border-color: #d4a017; transform: translateY(-1px); }
+    .profissional-card.selecionado { border-color: #d4a017; background: #211a08; }
+    .profissional-avatar {
+      width: 64px;
+      height: 64px;
+      background: #2b2b2b;
+      border: 2px solid rgba(212, 160, 23, 0.55);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      font-weight: 800;
+      color: #f2c14e;
+      margin: 0 auto 9px;
+      overflow: hidden;
+    }
+    .profissional-avatar img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .profissional-nome { font-size: 13px; color: #fff; font-weight: 700; }
+    .dias-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-bottom: 16px; }
+    .dia-btn, .hora-btn {
+      background: #202020;
+      border: 1px solid #3a352d;
+      border-radius: 10px;
+      text-align: center;
+      cursor: pointer;
+      transition: border-color 0.15s, background 0.15s;
+    }
+    .dia-btn { padding: 10px 4px; }
+    .dia-btn:hover, .hora-btn:hover { border-color: #d4a017; }
+    .dia-btn.selecionado, .hora-btn.selecionado { border-color: #d4a017; background: #211a08; }
+    .dia-nome { font-size: 10px; color: #a9a096; text-transform: uppercase; }
+    .dia-num { font-size: 18px; font-weight: 800; color: #fff; margin-top: 2px; }
+    .horas-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+    .hora-btn { padding: 11px 10px; font-size: 13px; color: #d7d0c6; }
+    .hora-btn.selecionado { color: #f2c14e; }
+    .hora-btn.bloqueado { opacity: 0.35; pointer-events: none; text-decoration: line-through; }
+    .campo {
+      width: 100%;
+      background: #202020;
+      border: 1px solid #3a352d;
+      border-radius: 10px;
+      padding: 14px;
+      font-size: 14px;
+      color: #fff;
+      margin-bottom: 10px;
+      outline: none;
+      font-family: inherit;
+      transition: border-color 0.15s;
+    }
+    .campo:focus { border-color: #d4a017; }
+    .campo::placeholder { color: #70675c; }
+    .resumo-card {
+      background: #202020;
+      border: 1px solid #3a352d;
+      border-radius: 12px;
+      padding: 14px;
+      margin-bottom: 16px;
+    }
+    .resumo-linha { display: flex; justify-content: space-between; gap: 12px; padding: 8px 0; border-bottom: 1px solid #342f27; }
+    .resumo-linha:last-child { border-bottom: none; }
+    .resumo-chave { font-size: 12px; color: #a9a096; }
+    .resumo-valor { font-size: 13px; color: #fff; font-weight: 700; text-align: right; }
+    .btn-principal {
+      width: 100%;
+      background: linear-gradient(135deg, #f2c14e, #b98218);
+      color: #111;
+      border: none;
+      border-radius: 12px;
+      padding: 14px;
+      font-size: 15px;
+      font-weight: 800;
+      cursor: pointer;
+      margin-top: 10px;
+      font-family: inherit;
+    }
+    .btn-principal:hover { filter: brightness(0.95); }
+    .btn-principal:disabled { opacity: 0.4; cursor: not-allowed; }
+    .btn-voltar {
+      width: 100%;
+      background: transparent;
+      color: #a9a096;
+      border: 1px solid #3a352d;
+      border-radius: 12px;
+      padding: 12px;
+      font-size: 14px;
+      cursor: pointer;
+      margin-top: 8px;
+      font-family: inherit;
+    }
+    .btn-voltar:hover { color: #fff; border-color: #625643; }
+    .sucesso { text-align: center; padding: 16px 0; }
+    .check-circulo {
+      width: 68px;
+      height: 68px;
+      background: #0f2a1a;
+      border: 2px solid #1a7a3a;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 16px;
+      font-size: 30px;
+      color: #25d366;
+    }
+    .sucesso-titulo { font-size: 21px; font-weight: 800; color: #fff; margin-bottom: 8px; }
+    .sucesso-sub { font-size: 13px; color: #a9a096; line-height: 1.7; margin-bottom: 24px; }
+    .passo { display: none; }
+    .passo.ativo { display: block; }
+    .secao-label {
+      font-size: 11px;
+      color: #d4a017;
+      font-weight: 800;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+      margin-top: 4px;
+    }
+    @media (max-width: 420px) {
+      .profissional-grid { grid-template-columns: repeat(2, 1fr); }
+      .dias-grid { grid-template-columns: repeat(3, 1fr); }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <div class="logo">FX</div>
+      <div>
+        <h1>Barber &amp; Studio FX</h1>
+        <p>Rua das Gaivotas, 355 - Salvador</p>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="steps-bar">
+        <div class="dot ativo" id="dot1"></div>
+        <div class="dot" id="dot2"></div>
+        <div class="dot" id="dot3"></div>
+        <div class="dot" id="dot4"></div>
+        <div class="dot" id="dot5"></div>
+      </div>
+
+      <div class="passo ativo" id="passo1">
+        <div class="passo-label">Passo 1 de 5</div>
+        <div class="passo-titulo">Escolha o servico</div>
+        <div class="servico-card" onclick="selecionarServico(this, 'Corte', 'R$ 35', '30 min')">
+          <div><div class="servico-nome">Corte</div><div class="servico-duracao">30 min</div></div>
+          <div class="servico-preco">R$ 35</div>
+        </div>
+        <div class="servico-card" onclick="selecionarServico(this, 'Corte + Barba', 'R$ 55', '50 min')">
+          <div><div class="servico-nome">Corte + Barba</div><div class="servico-duracao">50 min</div></div>
+          <div class="servico-preco">R$ 55</div>
+        </div>
+        <div class="servico-card" onclick="selecionarServico(this, 'Barba', 'R$ 25', '25 min')">
+          <div><div class="servico-nome">Barba</div><div class="servico-duracao">25 min</div></div>
+          <div class="servico-preco">R$ 25</div>
+        </div>
+        <div class="servico-card" onclick="selecionarServico(this, 'Sobrancelha', 'R$ 15', '15 min')">
+          <div><div class="servico-nome">Sobrancelha</div><div class="servico-duracao">15 min</div></div>
+          <div class="servico-preco">R$ 15</div>
+        </div>
+        <div class="servico-card" onclick="selecionarServico(this, 'Cachos', 'R$ 80', '60 min')">
+          <div><div class="servico-nome">Cachos</div><div class="servico-duracao">60 min</div></div>
+          <div class="servico-preco">R$ 80</div>
+        </div>
+        <div class="servico-card" onclick="selecionarServico(this, 'Nails', 'R$ 40', '45 min')">
+          <div><div class="servico-nome">Nails</div><div class="servico-duracao">45 min</div></div>
+          <div class="servico-preco">R$ 40</div>
+        </div>
+        <button class="btn-principal" id="btn-p1" onclick="irPasso(2)" disabled>Continuar</button>
+      </div>
+
+      <div class="passo" id="passo2">
+        <div class="passo-label">Passo 2 de 5</div>
+        <div class="passo-titulo">Escolha o profissional</div>
+        <div class="profissional-grid" id="profissional-grid"></div>
+        <button class="btn-principal" id="btn-p2" onclick="irPasso(3)" disabled>Continuar</button>
+        <button class="btn-voltar" onclick="irPasso(1)">Voltar</button>
+      </div>
+
+      <div class="passo" id="passo3">
+        <div class="passo-label">Passo 3 de 5</div>
+        <div class="passo-titulo">Escolha o dia</div>
+        <div class="dias-grid" id="dias-grid"></div>
+        <div class="secao-label">Horarios disponiveis</div>
+        <div class="horas-grid">
+          <div class="hora-btn" onclick="selecionarHora(this, '08:00')">08:00</div>
+          <div class="hora-btn" onclick="selecionarHora(this, '09:00')">09:00</div>
+          <div class="hora-btn" onclick="selecionarHora(this, '10:00')">10:00</div>
+          <div class="hora-btn" onclick="selecionarHora(this, '11:00')">11:00</div>
+          <div class="hora-btn" onclick="selecionarHora(this, '12:00')">12:00</div>
+          <div class="hora-btn" onclick="selecionarHora(this, '14:00')">14:00</div>
+          <div class="hora-btn" onclick="selecionarHora(this, '15:00')">15:00</div>
+          <div class="hora-btn" onclick="selecionarHora(this, '16:00')">16:00</div>
+          <div class="hora-btn" onclick="selecionarHora(this, '17:00')">17:00</div>
+          <div class="hora-btn" onclick="selecionarHora(this, '18:00')">18:00</div>
+          <div class="hora-btn" onclick="selecionarHora(this, '19:00')">19:00</div>
+          <div class="hora-btn" onclick="selecionarHora(this, '20:00')">20:00</div>
+        </div>
+        <button class="btn-principal" id="btn-p3" onclick="irPasso(4)" disabled style="margin-top:16px">Continuar</button>
+        <button class="btn-voltar" onclick="irPasso(2)">Voltar</button>
+      </div>
+
+      <div class="passo" id="passo4">
+        <div class="passo-label">Passo 4 de 5</div>
+        <div class="passo-titulo">Seus dados</div>
+        <input class="campo" id="campo-nome" type="text" placeholder="Seu nome completo" oninput="verificarFormulario()" />
+        <input class="campo" id="campo-tel" type="tel" placeholder="WhatsApp: (71) 99999-9999" oninput="verificarFormulario()" />
+        <button class="btn-principal" id="btn-p4" onclick="irPasso(5)" disabled>Ver resumo</button>
+        <button class="btn-voltar" onclick="irPasso(3)">Voltar</button>
+      </div>
+
+      <div class="passo" id="passo5">
+        <div class="passo-label">Passo 5 de 5</div>
+        <div class="passo-titulo">Confirme seu agendamento</div>
+        <div class="resumo-card">
+          <div class="resumo-linha"><span class="resumo-chave">Servico</span><span class="resumo-valor" id="r-servico">-</span></div>
+          <div class="resumo-linha"><span class="resumo-chave">Profissional</span><span class="resumo-valor" id="r-profissional">-</span></div>
+          <div class="resumo-linha"><span class="resumo-chave">Data</span><span class="resumo-valor" id="r-data">-</span></div>
+          <div class="resumo-linha"><span class="resumo-chave">Horario</span><span class="resumo-valor" id="r-hora">-</span></div>
+          <div class="resumo-linha"><span class="resumo-chave">Nome</span><span class="resumo-valor" id="r-nome">-</span></div>
+          <div class="resumo-linha"><span class="resumo-chave">Valor</span><span class="resumo-valor" id="r-preco" style="color:#f2c14e">-</span></div>
+        </div>
+        <button class="btn-principal" onclick="confirmarAgendamento()">Confirmar agendamento</button>
+        <button class="btn-voltar" onclick="irPasso(4)">Voltar</button>
+      </div>
+
+      <div class="passo" id="passo6">
+        <div class="sucesso">
+          <div class="check-circulo">OK</div>
+          <div class="sucesso-titulo">Agendado!</div>
+          <div class="sucesso-sub">Seu horario foi reservado com sucesso.<br>Voce recebera uma confirmacao pelo WhatsApp.</div>
+          <div class="resumo-card" style="text-align:left">
+            <div class="resumo-linha"><span class="resumo-chave">Servico</span><span class="resumo-valor" id="c-servico">-</span></div>
+            <div class="resumo-linha"><span class="resumo-chave">Profissional</span><span class="resumo-valor" id="c-profissional">-</span></div>
+            <div class="resumo-linha"><span class="resumo-chave">Data e hora</span><span class="resumo-valor" id="c-data">-</span></div>
+          </div>
+          <button class="btn-voltar" onclick="reiniciar()">Fazer outro agendamento</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    var API_BASE = ""; // Se usar GitHub Pages, coloque aqui a URL do Railway. Ex: "https://seu-app.up.railway.app"
+    var dados = { servico: "", preco: "", profissional: "", dia: "", hora: "", nome: "", telefone: "" };
+    var diaSelecionadoEhHoje = false;
+    var nomeDias = ["DOM", "SEG", "TER", "QUA", "QUI", "SEX", "SAB"];
+    var nomeMeses = ["Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez"];
+
+    function iniciais(nome) {
+      return nome.split(" ").map(function (parte) { return parte.charAt(0); }).join("").slice(0, 2).toUpperCase();
+    }
+
+    function carregarProfissionais() {
+      fetch(API_BASE + "/api/profissionais")
+        .then(function (r) { return r.json(); })
+        .then(function (lista) {
+          var grid = document.getElementById("profissional-grid");
+          grid.innerHTML = "";
+          lista.forEach(function (profissional) {
+            var card = document.createElement("div");
+            card.className = "profissional-card";
+            card.onclick = function () { selecionarProfissional(card, profissional.nome); };
+            card.innerHTML =
+              '<div class="profissional-avatar">' +
+              (profissional.fotoUrl
+                ? '<img src="' + profissional.fotoUrl + '" alt="' + profissional.nome + '">'
+                : iniciais(profissional.nome)) +
+              '</div><div class="profissional-nome">' + profissional.nome + "</div>";
+            grid.appendChild(card);
+          });
+        })
+        .catch(function () {
+          document.getElementById("profissional-grid").innerHTML = '<div class="profissional-card"><div class="profissional-avatar">FX</div><div class="profissional-nome">Equipe FX</div></div>';
+        });
+    }
+
+    function gerarDias() {
+      var grid = document.getElementById("dias-grid");
+      grid.innerHTML = "";
+      var hoje = new Date();
+      for (var i = 0; i < 6; i++) {
+        var data = new Date(hoje);
+        data.setDate(hoje.getDate() + i);
+        var label = data.getDate() + "/" + nomeMeses[data.getMonth()];
+        var btn = document.createElement("div");
+        btn.className = "dia-btn";
+        btn.innerHTML = '<div class="dia-nome">' + (i === 0 ? "HOJE" : nomeDias[data.getDay()]) + '</div><div class="dia-num">' + data.getDate() + "</div>";
+        btn.setAttribute("data-label", label);
+        btn.setAttribute("data-ehHoje", i === 0 ? "sim" : "nao");
+        btn.onclick = function () {
+          document.querySelectorAll(".dia-btn").forEach(function (b) { b.classList.remove("selecionado"); });
+          this.classList.add("selecionado");
+          dados.dia = this.getAttribute("data-label");
+          dados.hora = "";
+          diaSelecionadoEhHoje = this.getAttribute("data-ehHoje") === "sim";
+          document.getElementById("btn-p3").disabled = true;
+          bloquearHorariosPassados();
+        };
+        grid.appendChild(btn);
+      }
+    }
+
+    function bloquearHorariosPassados() {
+      var agora = new Date();
+      document.querySelectorAll(".hora-btn").forEach(function (btn) {
+        btn.classList.remove("bloqueado", "selecionado");
+        if (!diaSelecionadoEhHoje) return;
+        var partes = btn.textContent.trim().split(":");
+        var horaBtn = parseInt(partes[0], 10);
+        var minBtn = parseInt(partes[1], 10);
+        if (horaBtn < agora.getHours() || (horaBtn === agora.getHours() && minBtn <= agora.getMinutes())) {
+          btn.classList.add("bloqueado");
+        }
+      });
+    }
+
+    function irPasso(numero) {
+      document.querySelectorAll(".passo").forEach(function (el) { el.classList.remove("ativo"); });
+      document.getElementById("passo" + numero).classList.add("ativo");
+      for (var i = 1; i <= 5; i++) {
+        var dot = document.getElementById("dot" + i);
+        if (i === numero) dot.className = "dot ativo";
+        else if (i < numero) dot.className = "dot feito";
+        else dot.className = "dot";
+      }
+      if (numero === 5) preencherResumo();
+    }
+
+    function selecionarServico(elemento, nome, preco) {
+      document.querySelectorAll(".servico-card").forEach(function (c) { c.classList.remove("selecionado"); });
+      elemento.classList.add("selecionado");
+      dados.servico = nome;
+      dados.preco = preco;
+      document.getElementById("btn-p1").disabled = false;
+    }
+
+    function selecionarProfissional(elemento, nome) {
+      document.querySelectorAll(".profissional-card").forEach(function (c) { c.classList.remove("selecionado"); });
+      elemento.classList.add("selecionado");
+      dados.profissional = nome;
+      document.getElementById("btn-p2").disabled = false;
+    }
+
+    function selecionarHora(elemento, hora) {
+      document.querySelectorAll(".hora-btn:not(.bloqueado)").forEach(function (b) { b.classList.remove("selecionado"); });
+      elemento.classList.add("selecionado");
+      dados.hora = hora;
+      document.getElementById("btn-p3").disabled = !(dados.dia && dados.hora);
+    }
+
+    function verificarFormulario() {
+      dados.nome = document.getElementById("campo-nome").value.trim();
+      dados.telefone = document.getElementById("campo-tel").value.trim();
+      document.getElementById("btn-p4").disabled = !(dados.nome.length >= 3 && dados.telefone.length >= 9);
+    }
+
+    function preencherResumo() {
+      document.getElementById("r-servico").textContent = dados.servico;
+      document.getElementById("r-profissional").textContent = dados.profissional;
+      document.getElementById("r-data").textContent = dados.dia;
+      document.getElementById("r-hora").textContent = dados.hora;
+      document.getElementById("r-nome").textContent = dados.nome;
+      document.getElementById("r-preco").textContent = dados.preco;
+    }
+
+    function confirmarAgendamento() {
+      document.getElementById("c-servico").textContent = dados.servico;
+      document.getElementById("c-profissional").textContent = dados.profissional;
+      document.getElementById("c-data").textContent = dados.dia + " as " + dados.hora;
+
+      fetch(API_BASE + "/api/agendar", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(dados)
+      });
+
+      document.querySelectorAll(".passo").forEach(function (el) { el.classList.remove("ativo"); });
+      document.getElementById("passo6").classList.add("ativo");
+      document.querySelectorAll(".dot").forEach(function (dot) { dot.className = "dot feito"; });
+    }
+
+    function reiniciar() {
+      dados = { servico: "", preco: "", profissional: "", dia: "", hora: "", nome: "", telefone: "" };
+      diaSelecionadoEhHoje = false;
+      document.querySelectorAll(".selecionado").forEach(function (el) { el.classList.remove("selecionado"); });
+      document.querySelectorAll(".hora-btn").forEach(function (b) { b.classList.remove("bloqueado"); });
+      document.getElementById("campo-nome").value = "";
+      document.getElementById("campo-tel").value = "";
+      document.getElementById("btn-p1").disabled = true;
+      document.getElementById("btn-p2").disabled = true;
+      document.getElementById("btn-p3").disabled = true;
+      document.getElementById("btn-p4").disabled = true;
+      carregarProfissionais();
+      gerarDias();
+      irPasso(1);
+    }
+
+    carregarProfissionais();
+    gerarDias();
+  </script>
+</body>
+</html>
